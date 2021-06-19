@@ -1,11 +1,13 @@
 const app = require("express")();
 
-const {PORT} = require("./config")
+const log = require('./middlewares/log')
+const router = require("./router");
+const {PORT} = require("./config");
 
-require("./config/express")(app)
+require("./config/express")(app);
 
-app.get("/", (req, res) => {
-    res.json({message: "it works"})
-})
+app.use(log);
+
+app.use(router);
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
