@@ -2,7 +2,7 @@ const { SESSION, JWT_SECRET } = require("../config");
 const jwt = require("jsonwebtoken")
 
 
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
     let token = req.headers[SESSION]
 
     if (token) {
