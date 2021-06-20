@@ -37,7 +37,7 @@ async function register(data) {
 
     const user = await User.findOne({ username: data.username });
 
-    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: "2h" });
+    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET);
 
     return { sessionToken: token, objectId: user._id }
 }
@@ -61,7 +61,7 @@ async function login(data) {
         throw { message: "Invalid username and password" }
     }
 
-    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: "2h" });
+    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET);
     return { sessionToken: token, objectId: user._id }
 }
 

@@ -24,6 +24,17 @@ async function create(data, userObj) {
     return Hack.updateOne({ _id: hack }, curHack)
 }
 
+async function deleteComment(commentId, userId) {
+    let comment = await Comment.findOne({ _id: commentId });
+
+    if (comment.owner != userId) {
+        throw { message: "Unauthorized" }
+    }
+
+    return Comment.deleteOne({ _id: commentId });
+}
+
 module.exports = {
     create,
+    deleteComment,
 }
