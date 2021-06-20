@@ -10,6 +10,10 @@ const commentSchema = new mongoose.Schema({
         required: true,
         ref: "User"
     },
+    username: {
+        type: String,
+        required: true
+    },
     hack: {
         type: mongoose.Types.ObjectId,
         required: true,

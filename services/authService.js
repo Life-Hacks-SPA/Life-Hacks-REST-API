@@ -37,9 +37,9 @@ async function register(data) {
 
     const user = await User.findOne({ username: data.username });
 
-    let token = jwt.sign({ id: user._id }, JWT_SECRET, {expiresIn: "2h"});
+    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: "2h" });
 
-    return {sessionToken: token, objectId: user._id}
+    return { sessionToken: token, objectId: user._id }
 }
 
 async function login(data) {
@@ -57,12 +57,12 @@ async function login(data) {
 
     let isMatch = bcrypt.compareSync(password, user.password);
 
-    if(!isMatch){
+    if (!isMatch) {
         throw { message: "Invalid username and password" }
     }
 
-    let token = jwt.sign({ id: user._id }, JWT_SECRET, {expiresIn: "2h"});
-    return {sessionToken: token, objectId: user._id}
+    let token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: "2h" });
+    return { sessionToken: token, objectId: user._id }
 }
 
 
