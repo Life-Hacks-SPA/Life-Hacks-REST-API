@@ -42,8 +42,32 @@ async function register(data) {
     return {sessionToken: token, objectId: user._id}
 }
 
+async function login(data) {
+    let { email, username, password } = data;
+
+    if (email == "" || username == "" || password == "") {
+        throw { message: "All Fields are required" }
+    }
+
+    let user = await User.findOne({ username: username.toLowerCase() });
+
+    if (!user) {
+        throw { message: "Invalid username and password" }
+    }
+
+    let isMatch = bcrypt.compareSync(password, user.password);
+
+    if(!isMatch){
+        throw { message: "Invalid username and password" }
+    }
+
+    let token = jwt.sign({ id: user._id }, JWT_SECRET, {expiresIn: "2h"});
+    return {sessionToken: token, objectId: user._id}
+}
+
 
 
 module.exports = {
-    register
+    register,
+    login,
 }

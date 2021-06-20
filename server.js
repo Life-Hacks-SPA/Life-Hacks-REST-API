@@ -1,12 +1,16 @@
 const app = require("express")();
 
-const log = require('./middlewares/log')
+const log = require('./middlewares/log');
+const auth = require("./middlewares/auth")
 const router = require("./router");
 const {PORT} = require("./config");
 
 require("./config/express")(app);
 
+
 app.use(log);
+
+app.use(auth);
 
 app.use(router);
 
