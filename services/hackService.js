@@ -36,7 +36,12 @@ async function create(data, userId) {
     return hackObj.save()
 }
 
+async function getById(hackId, userId){
+    return Hack.findOne({_id: hackId}).populate("comments").populate("ownerId");
+}
+
 module.exports = {
     getAll,
     create,
+    getById
 }

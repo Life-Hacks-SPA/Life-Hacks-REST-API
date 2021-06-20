@@ -8,6 +8,10 @@ mongoose.connect(`mongodb://localhost:${DB_PORT}/life-hacks-spa`, {
     autoIndex: false
 });
 
+require('../schemes/Comment');
+require('../schemes/Hack');
+require('../schemes/User');
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {

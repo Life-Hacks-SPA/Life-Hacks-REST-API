@@ -19,10 +19,17 @@ router.get("/", async (req, res) => {
         let data = await hackService.getAll();
         res.status(200).json(data)
     } catch {
-        res.sataus(400).json({ message: "Generate hacks problem" });
+        res.sataus(400).json({ message: "Generate hacks - problem" });
     }
 })
 
-
+router.get("/details/:hackId", async (req, res) => {
+    try {
+        let data = await hackService.getById(req.params.hackId, res.locals.user.id);
+        res.status(200).json(data);
+    } catch (err) {
+        res.status(400).json({message: "Generate hacks by - problem"})
+    }
+})
 
 module.exports = router;
