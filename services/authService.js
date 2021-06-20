@@ -7,7 +7,7 @@ const { SALT_ROUNDS, JWT_SECRET } = require("../config")
 async function createUser(data) {
     let { email, username, password } = data;
 
-    if (email == "" || username == "" || password == "") {
+    if (email.trim() == "" || username.trim() == "" || password.trim() == "") {
         throw { message: "All Fields are required" }
     }
 
@@ -15,7 +15,7 @@ async function createUser(data) {
         throw { message: "Invalid email" }
     }
 
-    let user = await User.findOne({ username: username.toLowerCase() });
+    let user = await User.findOne({ username: username.toLowerCase().trim() });
 
     if (user) {
         throw { message: "User exist" }

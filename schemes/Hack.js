@@ -19,7 +19,7 @@ const hackSchema = new mongoose.Schema({
         required: true,
         ref: "User"
     },
-    hacks: [{
+    comments: [{
         type: mongoose.Types.ObjectId,
         ref: "Comment"
     }]
