@@ -64,9 +64,20 @@ async function update(hackId, userId, data) {
     return Hack.updateOne({ _id: hackId }, { name, imageUrl, description })
 }
 
+async function deleteHack(hackId, userId) {
+    let hack = await Hack.findOne({ _id: hackId });
+
+    if (hack.ownerId != userId) {
+        throw { message: "Unauthorized" }
+    }
+
+    return Hack.deleteOne({ _id: hackId });
+}
+
 module.exports = {
     getAll,
     create,
-    getById, 
-    update
+    getById,
+    update,
+    deleteHack
 }
