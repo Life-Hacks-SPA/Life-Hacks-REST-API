@@ -1,0 +1,15 @@
+{
+    "name": "life-hacks",
+    "version": "1.0.0",
+    "description": "Life Hacks Single Page Application",
+    "main": "index.html",
+    "author": "Darin Polizanov",
+    "license": "ISC",
+    "dependencies": {
+        "lit-html": "^1.4.0",
+        "page": "^1.11.6"
+    },
+    "devDependencies": {
+        "http-server": "^0.12.3"
+    }
+}
