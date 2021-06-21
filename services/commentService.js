@@ -8,8 +8,6 @@ async function create(data, userObj) {
         throw { message: "Value is required!" };
     }
 
-    console.log(userObj)
-
     let commentObj = new Comment({
         value: value.trim(),
         hack,
@@ -31,7 +29,13 @@ async function deleteComment(commentId, userId) {
         throw { message: "Unauthorized" }
     }
 
-    return Comment.deleteOne({ _id: commentId });
+    let [hack, pr] = await Promise.all([
+        Hack.findOne({ _id: comment.hack }),
+        Comment.deleteOne({ _id: commentId })
+    ])
+    
+    hack.comments = hack.comments.filter(x => x.toString() != comment._id);
+    return Hack.updateOne({ _id: comment.hack }, hack);
 }
 
 module.exports = {
