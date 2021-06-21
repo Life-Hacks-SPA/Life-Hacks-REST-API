@@ -1,4 +1,5 @@
 const Hack = require("../schemes/Hack");
+const Comment = require("../schemes/Comment");
 
 function getAll() {
     return Hack.find({});
@@ -61,7 +62,7 @@ async function update(hackId, userId, data) {
         throw { message: "Invalid URL" }
     }
 
-    return Hack.updateOne({ _id: hackId }, { name, imageUrl, description })
+    return Hack.updateOne({ _id: hackId }, { name: name.trim(), imageUrl: imageUrl.trim(), description: description.trim() })
 }
 
 async function deleteHack(hackId, userId) {
@@ -71,7 +72,14 @@ async function deleteHack(hackId, userId) {
         throw { message: "Unauthorized" }
     }
 
-    return Hack.deleteOne({ _id: hackId });
+    return Promise.all([
+        Hack.deleteOne({ _id: hackId }),
+        Comment.deleteMany({ hack: hack._id })
+    ])
+}
+
+function getProfileData(userId){
+    return Hack.find({ ownerId: userId });
 }
 
 module.exports = {
@@ -79,5 +87,6 @@ module.exports = {
     create,
     getById,
     update,
-    deleteHack
+    deleteHack,
+    getProfileData
 }

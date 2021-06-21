@@ -50,4 +50,14 @@ router.delete("/delete/:hackId", isAuth, async (req, res) => {
     }
 })
 
+router.get("/profile/:profileId", isAuth, async (req, res) => {
+    try {
+        data = await hackService.getProfileData(req.params.profileId);
+        res.status(201).json(data);
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({ message: "Get profile page - problem" })
+    }
+})
+
 module.exports = router;
