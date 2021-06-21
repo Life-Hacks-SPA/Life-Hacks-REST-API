@@ -32,4 +32,14 @@ router.get("/details/:hackId", async (req, res) => {
     }
 })
 
+router.put("/update/:hackId", isAuth, async (req, res) => {
+    try {
+        await hackService.update(req.params.hackId, res.locals.user.id, req.body);
+        res.status(201).json({});
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({message: err.message})
+    }
+})
+
 module.exports = router;

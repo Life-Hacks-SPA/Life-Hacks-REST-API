@@ -22,7 +22,7 @@ async function create(data, userId) {
     let post = await Hack.findOne({ name: name.trim() });
     console.log(userId)
 
-    if (post) {     
+    if (post) {
         throw { message: "This post already exist!" }
     }
 
@@ -36,12 +36,37 @@ async function create(data, userId) {
     return hackObj.save()
 }
 
-async function getById(hackId, userId){
-    return Hack.findOne({_id: hackId}).populate("comments").populate("ownerId");
+async function getById(hackId, userId) {
+    return Hack.findOne({ _id: hackId }).populate("comments").populate("ownerId");
+}
+
+async function update(hackId, userId, data) {
+    let hack = await Hack.findOne({ _id: hackId });
+
+    if (hack.ownerId != userId) {
+        throw { message: "Unauthorized" }
+    }
+
+    let { name, imageUrl, description } = data;
+
+    if (name == "" || imageUrl == "" || description == "") {
+        throw { message: "All fields are required!" }
+    }
+
+    if (description < 6) {
+        throw { message: "Description must be at least 6 characters long!" }
+    }
+
+    if (!imageUrl.startsWith("http")) {
+        throw { message: "Invalid URL" }
+    }
+
+    return Hack.updateOne({ _id: hackId }, { name, imageUrl, description })
 }
 
 module.exports = {
     getAll,
     create,
-    getById
+    getById, 
+    update
 }
